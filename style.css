@@ -197,12 +197,12 @@ a:hover{
 	
 }
 
-#contact_info{
+.info_list{
 	margin-left:2%;
 	font-family: 'Michroma', sans-serif;
 }
 
-#contact_info p{
+.info_list p{
 	font-size: large;
 	padding-top:18px;
 }

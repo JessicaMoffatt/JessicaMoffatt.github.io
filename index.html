@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="d7dObK3-sGV8mh-0ESm9EuKLGC_lZxw65iqY05qPJ3I" />
+<meta name="google-signin-client_id" content="346167065142-2i6ej7oqru7oiaqdf88h6864uf8p1os5.apps.googleusercontent.com">
+<script src="jquery-3.3.1.min.js"></script>
+<script src="script.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>Jessica Moffatt</title>
 <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Michroma" rel="stylesheet">
 <link href="style.css" rel="stylesheet" type="text/css">
-<script src="jquery-3.3.1.min.js"></script>
-<script src="script.js"></script>
 </head>
 <header>
 <div id="logo_container">
 <img src="photos/JMLogo.png" alt="logo" id="logo">
 <p id="tagline">web & software developer</p>
 <div class="menu_drop">
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
 <a href="#"><img src="photos/menu.png" alt="menu" id="menu_img"></a>
 <div id="menu_selection">
 <div class="tooltip">
@@ -37,6 +40,7 @@
 </div>
 </div>
 <img src="photos/home.png" alt="home" id="current_img">
+
 </header>
 <body>
 <div id="main_container">

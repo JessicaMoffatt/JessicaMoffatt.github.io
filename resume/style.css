@@ -12,6 +12,7 @@
 
 #details p{
 	padding-top:5px;
+	font-size:12pt;
 }
 
 .main_container{
@@ -45,4 +46,8 @@
 
 .subsection{
 	margin-bottom:2%;
+}
+
+p{
+	font-size:15pt;
 }

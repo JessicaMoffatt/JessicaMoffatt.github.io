@@ -1,0 +1,26 @@
+.welcome-title{
+	font-family: 'Great Vibes', cursive !important;
+	font-size: 5rem !important;
+	padding-top: 1rem;
+}
+
+.sub-title{
+	color:darkgray;
+}
+
+.post{
+	border-top:1px solid lightgray;
+	padding:0.75rem;
+}
+
+.background{
+	background-color:#e1eaef;
+}
+
+.mid-background{
+	background-color:white;
+}
+
+p, li{
+	font-size:1.25rem;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>The Holo Trinity</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+</head>
+<body>
+<div class='background'>
+	<div class='container mid-background'>
+		<div class='container'>
+
+			<div class='container'>
+				<h1 class='text-center welcome-title'>The Holo Trinity</h1>
+			</div>
+			
+			<div class='container'>
+				<p class='text-center sub-title small'>This is where I will be hosting three blog posts about the Microsoft HoloLens</p>
+			</div>
+			
+			<div class='panel panel-default post'>
+				<div class='container'>
+				<h1>Microsoft HoloLens? What is That? How Does It Work?</h1>
+				<span class="small sub-title">Post by Jessica Moffatt, January 28, 2019</span>
+				</div>
+				<br/>
+				<div class='panel-body center-text'>
+				
+					<div class='container'>
+						<h3>A little background first</h3>
+						<p>
+						More and more, the world is moving towards integrating technology into our daily lives. 
+						Headsets are becoming increasingly popular with each passing year, with technologies like virtual reality (VR), 
+						augmented reality (AR), and mixed reality getting more advanced. A lot of you guys have probably heard of VR before,
+						 with gaming systems like the PlayStation VR and Oculus being the hot topics that they are. 
+						 I would also bet a fair share have heard of AR as well. It is the term “mixed reality” that doesn’t come up quite as often, 
+						 but I believe is the most important of the three, with big implications for industry.
+						</p>
+						<p>
+						To really understand what mixed reality is, you need to have a good understanding of the differences between VR 
+						and AR. So we are all on the same page, I am going to lay them out for you now:
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>Virtual Reality</h3>
+						<p>
+						Virtual Reality is where you (the user) are placed in a 3D space that is separate from reality. 
+						You look into a headset that projects a fully covered scene for you to interact with 
+						(either with motion controllers or static keyboard/joystick inputs). 
+						</p>
+						<p>
+						Typically speaking, VR is a heavy process load so it tends to be tethered for higher performance, though this isn’t always the case. 
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>Augmented Reality</h3>
+						<p>
+						Augmented Reality superimposes 3D images on top of the space around you, 
+						visual either through a screen (say, your mobile device) or a headset. 
+						Though these 3D images can be interacted with (like a touch screen), they don’t interact with the environment
+						 they are placed over, they are simply projected. 
+						</p>
+					</div>
+	
+					<div class='container'>
+						<h3>Mixed Reality</h3>
+						<p>
+						Mixed Reality is, like the title alludes, a mixture of the two. It both superimposes 3D images on top of the space around you, 
+						as well as allows those images to interact with the environment on which they have been projected. 
+						As well, MR takes it all one step further and implements positional tracking to lock the virtual elements in to real world locations.
+						</p>
+						<p>
+						An example of a mixed reality device is Microsoft’s HoloLens, the topic of this blog. 
+						It is a common misconception that the HoloLens is an AR device, but the distinction is important!
+						 The HoloLen’s ability to lock elements in place is a key feature and one that is not possible with AR.
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>How the HoloLens works</h3>
+						<p>
+						The HoloLens uses infrared rays to scan the real world and create a 3D blueprint for its reference. 
+						Successive scans are then used to compare against the blueprint, and are thus able to track positional 
+						changes of the wearer, as well as enhance the original blueprint. This blue print can be used to do two things:
+						</p>
+
+						<ol>
+						 <li>To lock the virtual elements in real world locations.</li>
+						 <li>To use the topography of the world around you for simulations (such as bouncing a virtual ball around that reacts to 
+						 the blueprint’s virtual surface.</li>
+						</ol>
+						<p>
+						Along with the ray scans, the HoloLens also has a real camera that is used to stream video outward for external viewership. This provides a hands free way of reporting data/information to field experts.
+						</p>
+						<p>
+						The HoloLens projects light onto lenses that cover your eyes like a pair of glasses. Each lens projects a different image, creating a stereoscopic image which allows for depth perception.  
+						</p>
+						<p>
+						The HoloLens is completely remote and an all in one unit. All the power and computing is stored within the device itself, making it highly portable. This is contrary to most VR devices as well as some other mixed reality devices, which are either corded or streamed to the headsets, which can produce lag.
+						</p>
+						<p>
+						The HoloLens recognizes four main types of inputs:
+						</p>
+
+						<ol>
+						 <li>Hand Gestures. This is the default form of operation, which is recorded by the camera and sensors.</li>
+						 <li>Head Tracking. This is the second greatest form of input. The location you are facing your head is like a mouse 
+						 pointer in the center of the screen.
+						</li>
+						 <li>Voice Commands.</li>
+						 <li>Good old fashion keyboard input. This can be accomplished either by plugging in a keyboard directly to the HoloLens,
+						 or when testing applications with the HoloLens emulator (for more about the emulator, check <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/using-the-hololens-emulator">HERE</a>).
+						</li>
+						</ol>
+					</div>
+					
+					<div class='container'>
+						<h3>Coding for the HoloLens</h3>
+						<p>
+						I was first introduced to the HoloLens when I got to work on a fire simulation application during an internship I was working.
+						 The setup I used for my development environment included Unity and Visual Studio. There was a bit of setup required 
+						 for the Unity project, most important of all was importing the Mixed Reality Toolkit (MRTK) for the HoloLens 
+						 (found <a href="https://github.com/Microsoft/MixedRealityToolkit-Unity/blob/master/README.md">HERE</a> ). 
+						 The MRTK is a requirement if you are planning to create an application for the HoloLens. 
+						 I also highly recommend checking out some of the tutorials they have <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/holograms-100">HERE</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</head>
+</html>

@@ -18,7 +18,7 @@
 .main_container{
 	margin-left:5%;
 	margin-right:5%;
-	border:10px solid #a7d0b6;
+	border:10px solid #ff8c00;
 	padding-bottom:2%;
 	margin-bottom:2px;
 	box-shadow:
@@ -37,7 +37,7 @@
 .section{
 	text-align:left;
 	border-style: solid;
-	border-color: #a7d0b6;
+	border-color: #ff8c00;
 	border-width: 0px 0px 0px 1px;
 	margin-top:2%;
 	margin-bottom:2%;

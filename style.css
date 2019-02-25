@@ -13,7 +13,7 @@ html{
 	height:75px;
 	width:100%;
 	position:relative;
-	background-color:#A7D0B6;
+	background-color:#a9bfd1;
 }
 
 #logo{
@@ -48,7 +48,7 @@ html{
 	position:fixed;
 	right:4.5%;
 	background-color:white;
-	border: 2px solid #A7D0B6;
+	border: 2px solid #a9bfd1;
 	padding: 5px;
 	margin-top:5px;
 	z-index:3;
@@ -104,13 +104,13 @@ a{
 }
 
 a:hover{
-	color:#F4D55F;
+	color:#ff8c00;
 }
 
 .tooltiptext {
     visibility: hidden;
     width: 150px;
-    background-color: #F4D55F;
+    background-color: #ff8c00;
     color: white;
 	font-size: x-large;
 	font-family: 'Righteous', cursive;
@@ -120,7 +120,7 @@ a:hover{
 		-1px 1px 0 #282828,
 		1px 1px 0 #282828;
     text-align: center;
-    border: 2px solid #F4D55F;
+    border: 2px solid #ff8c00;
 	border-radius:7px;
     padding: 5px 0;
     position: absolute;
@@ -155,7 +155,7 @@ a:hover{
     margin-right: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #F4D55F transparent transparent #F4D55F;
+    border-color: #ff8c00 transparent transparent #ff8c00;
 }
 
 .tooltip:hover .tooltiptext {
@@ -164,7 +164,7 @@ a:hover{
 }
 
 .tooltip:hover .link_icon{
-	background-color:#F4D55F;
+	background-color:#ff8c00;
 }
 
 @media only screen and (max-width: 600px){

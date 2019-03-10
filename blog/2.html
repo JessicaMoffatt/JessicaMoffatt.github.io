@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>The Holo Trinity</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+</head>
+<body>
+<div class='background'>
+	<div class='container mid-background'>
+		<div class='container'>
+
+			<div class='container'>
+				<h1 class='text-center welcome-title'>The Holo Trinity</h1>
+			</div>
+			
+			<div class='container'>
+				<p class='text-center sub-title small'>This is where I will be hosting three blog posts about the Microsoft HoloLens</p>
+			</div>
+			
+			<div class='panel panel-default post'>
+				<div class='container'>
+				<h1>4 Steps To Setting Up Unity For HoloLens Development.</h1>
+				<h2>Number 2 May Surprise You!</h2>
+				<span class="small sub-title">Post by Jessica Moffatt, March 10, 2019</span>
+				</div>
+				<br/>
+				<div class='panel-body center-text'>
+				
+					<div class='container'>
+						<h4>Why am I doing this?</h4>
+						<p>
+							I was looking over <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/holograms-100">Microsofts HoloLens tutorials</a>, and I realised they are all out of date 
+							and not going to be updated until the release of HoloLens 2 (at the earliest).
+						</p>
+						<p>
+							Normally, I am a patient woman. But I have a presentation due Wednesday so I guess I'll need to figure it out myself.
+							Join me, wont you?
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>1. Installation List</h3>
+						<p>
+						There are a number of programs/utilities you need to have installed before you can begin developing for the HoloLens. I will list those here, and you can also find the same list on <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/install-the-tools">Microsoft's Official Site</a>.
+						</p>
+						<ol>
+							<li>
+								<p><b><a href="https://www.microsoft.com/en-ca/software-download/windows10">Windows 10</a></b></p>
+								<p>Make sure you enable Developer Mode (<i>Settings->Update & Security->For Developers</i>. I also could have sworn I read somewhere that developing on Windows 7 or 8 is fine too, so long as you have the Windows 10 SDK... Maybe give it a try before you bother upgrading if you really don't want to use Windows 10.</p>
+							</li>
+							<li>
+								<p><b><a href="https://visualstudio.microsoft.com/downloads/">Visual Studio 2017</a></b></p>
+								<p>This is an optional install with Unity, so if you are following along in order, you don't need to do this one yet. Also, I'm pretty sure Visual Studio 2015 works fine too.</p>
+							</li>
+							<li>
+								<p><b><a href="https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk">Windows 10 SDK (latest)</a></b></p>
+								<p>This has some important libraries/etc that you need to develop Windows 10 apps (which HoloLens apps counts as).</p>
+							</li>
+							<li>
+								<p><b><a href="https://unity3d.com/get-unity/download">Unity (latest)</a></b></p>
+								<p>Microsoft's suggests a specific version of Unity, you can follow that if you want to. I downloaded version 2018.3.7f1 and it works fine. So really it's up to you if you want the latest or the recommended.</p>
+							</li>
+							<li>
+								<p><b><a href="https://github.com/Microsoft/MixedRealityToolkit-Unity/releases/tag/v2.0.0-Beta2">Mixed Reality Toolkit for Unity (Foundation)</a></b></p>
+								<p>This is optional apparently, but I cannot imagin trying to develop without it.</p>
+							</li>
+							<li>
+								<p><b><a href="https://docs.microsoft.com/en-us/windows/mixed-reality/using-the-hololens-emulator">HoloLens Emulator</a></b></p>
+								<p>If you have a HoloLens, this is not necessary. As I do not own one, I will be using the emulator.</p>
+							</li>
+						</ol>
+					</div>
+					
+					<div class='container'>
+						<h3 id="step_2">2. HoloLens Emulator Setup Woes</h3>
+						
+								<p>To start off, make sure you set aside a LOT of time to setup your emulator. You will be prompted to download/enable a few things, and some of them may take a while.</p>
+
+								<p>One of those things you may need is <a href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Hyper-V</a>, and it does not play well with <a href="https://en.wikipedia.org/wiki/Virtual_machine">Virtual Machines</a>.</p>
+								<p>I had a nightmare of a time trying to get this all set up. After installing everything (Hyper-V included) and doing a test deployment I got the following error:</p>
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='error.png' alt='HoloLens Emulator Hypervisor Error'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Deployment Error for the HoloLens Emulator</figcaption>
+									<div>
+								</figure>
+								<p>The reason I got this error is because I have both VMs installed on my computer, as well as Hyper-V enabled.</p>
+								<p>After a lot of Googling and messing around, I found the steps to correct this are as such: </p>
+								<ol>
+								<li>
+									<p><b>Make sure Virtualization is enabled on your system.</b></p>
+									<p>You check this through BIOS. If you don’t know how access BIOS, click <a href="https://www.pcworld.com/article/241032/how-to-enter-your-pcs-bios.html">HERE</a> for step by step instructions.</p>
+									<p>
+										Once in BIOS, you need to check your virtualization settings. Now, what I found online was this tutorial <a href="https://support.bluestacks.com/hc/en-us/articles/115003910391-How-can-I-enable-virtualization-VT-on-my-PC-">HERE</a>, which you may find helpful (spoiler for next sentence, I did not). 
+										However, the way my computer is set up I only have access to Toshiba’s Setup Utility so this tutorial 
+										did not help me. Just in case you are in the same boat, I found a Virtualization Technology section under the Advanced menu option.
+										I noticed "VT-x & VT-d" was already selected, so I just left it alone. My emulator eventually ended up working, so I presume selecting that was sufficient.
+									</p>
+								</li>
+								<li>
+									<p><b>Toggle Hyper-V Feature Off</b></p>
+									<p>
+										Next, you need to type into your Windows search bar: “Turn Windows features on or off”, load that up.
+									</p>
+									<p>
+										You may want to pin this to your task bar,
+										because you will be revisiting it a lot. 									
+									</p>
+									<p>
+										Search in the list for “Hyper-V” and if it is currently checked (mine was) uncheck 
+										it. If it is not currently checked, then I guess skip ahead to where we turn it back on (<a href="#step_4">Step 4</a>).
+									</p>		
+
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='turn_features_off.png' alt='Turn Hyper-V Off'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Turn Hyper-V Off</figcaption>
+									<div>
+								</figure>
+								
+								</li>
+								<li>
+									<p><b>Restart your computer</b></p>
+									<p>
+										It will do a bit of updating, that is fine.
+									</p>
+								</li>
+								<li>
+									<p id="step_4"><b>Toggle Hyper-V Feature On</b></p>
+									<p>
+										Return to Turn Windows Features On Or Off, and re-check the Hyper-V checkbox.
+									</p>
+									
+									<figure class="figure">
+										<img class='figure-img img-fluid w-75 mx-auto d-block' src='turn_features_on.png' alt='Turn Hyper-V On'>
+										<div class=" w-75 mx-auto d-block">
+										<figcaption class="figure-caption">Turn Hyper-V On</figcaption>
+										<div>
+									</figure>
+								</li>
+								<li>
+									<p><b>Restart again.</b></p>
+								</li>
+								</ol>
+								<p>
+									Now, if you are lucky, deploying to the HoloLens Emulator should work. However, starting up your VM should NOT work.
+									That’s okay, next time you want to load up your VM you just need to uncheck the Hyper-V and restart. 
+									Easy-peasy.
+								</p>
+								<p>
+									Now, you could probably avoid this whole mess by just developing in a VM that has Hyper-V installed… but emulating within a VM can be a bit slow so I don’t particularly recommend it.
+								</p>
+					</div>
+	
+					<div class='container'>
+						<h3>3. Setting Up Your Unity Environment</h3>
+						<p>
+							Now we are ready to actually make our application. From here on out, I am going to assume you know a bit about working within Unity.
+							If you are not familiar with Unity, they have some pretty good tutorials on their site, which I will link to <a href="https://unity3d.com/learn/beginner-tutorials">HERE</a>.
+						</p>
+						<p>
+							I personally find it a bit uncomfortable trying to follow to along with tutorials with only words, so I will be including LOTS of screen shots so you know you are doing things correctly.
+						</p>
+						<p>
+							So to start off, we need to create a new project in Unity, making sure that the 3D selection is chosen for the type of project. Name it whatever you want, and place it wherever you want.
+						</p>
+						<p>
+							In the <i>Main Toolbar</i>: go to <i>Edit->Project Settings</i>.
+						</p>
+						<p>
+							On the left hand side, select <i>Quality</i>. Locate the Windows icon, and select <i>Very Low</i> as the setting. 
+							We want our application to run fast on the HoloLens, so having a lower quality will help with that, and quite frankly it looks fine so why not?
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='quality.png' alt='Set Quality to Very Low'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Set Quality to Very Low</figcaption>
+							<div>
+						</figure>
+						
+						<p>
+							Now lets add spatial sound support.
+						</p>
+						<p>
+							With Project Settings still open, select <i>Audio</i> on the left hand side.
+							Change the <i>Spatializer Plugin</i> from <i>none</i> to <i>MS HRTF Spatializer</i>.
+
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='spatial_sound.png' alt='Set Spatializer Plugin to MS HRTF Spatializer'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Set Spatializer Plugin to MS HRTF Spatializer</figcaption>
+							<div>
+						</figure>						
+						
+						<p>
+							As a side note, in order to use spatial sound, when you add an Audio Source to your GameObject, 
+							you will want to make sure that the <i>Spatial Blend</i> attribute is set all the way to <i>3D</i>, and that 
+							<i>Spatialize</i> is checked!
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='spatial_blend.png' alt='Set Spatial Blend to 3D, and check Spatialize'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Set Spatial Blend to 3D, and check Spatialize</figcaption>
+							<div>
+						</figure>		
+
+						<p>
+							Next, we need to add virtual reality support.
+						</p>
+						
+						<p>
+							With Project Settings still open, select <i>Player</i> on the left hand side.
+							Locate the Windows icon, click it, and expand <i>XR Settings</i>.
+							Ensure that <i>Virtual Reality Supported</i> is checked, as well make sure <i>Windows Mixed Reality</i> is listed, if it isn’t, click the little plus button (<i>+</i>) and add it. 
+
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='player_1.png' alt='Check Virtual Reality Supported, with Windows Mixed Reality listed'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Check Virtual Reality Supported, with Windows Mixed Reality listed</figcaption>
+							<div>
+						</figure>	
+
+						<p>
+							While still under Player, minimize <i>XR Settings</i> and expand <i>Other Settings</i>.
+							Make sure your <i>Scripting Backend</i> is <i>IL2CPP</i>. 
+							This is one big difference from the tutorial Microsoft has for setting up, they tell you to make sure it 
+							is <i>.NET</i>. But you will find when we import the toolkit, it will tell us to overwrite this setting to <i>IL2CPP</i> if we want it to work. 
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='player_2.png' alt='Set Scripting Backend to IL2CPP'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Set Scripting Backend to IL2CPP</figcaption>
+							<div>
+						</figure>	
+
+						<p>
+							Speaking of the toolkit, let’s import it.
+						</p>
+						<p>
+							On the <i>Main Toolbar</i>, Go to <i>Assets->Import Package->Custom Package</i>.
+							You will be prompted to select a package to add, so locate wherever you placed the Mixed Reality Toolkit we downloaded earlier. 
+							When importing go ahead and leave all the options checked, we want them all!
+						</p>
+
+						<p>
+							Lastly, on that <i>Main Toolbar</i> you will see a <i>Mixed Reality Toolkit</i> option.
+							Click it and select the <i>Configure…</i> option and the Scene we have will get populated by a Mixed Reality Toolkit object and a Mixed Reality Playspace (with attached camera) object.
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='configure.png' alt='Configure the Environment'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Configure the Environment</figcaption>
+							<div>
+						</figure>
+					</div>
+				
+					
+					<div class='container'>
+						<h3>4. Testing It All Works</h3>
+						<p>
+							Now, for testing purposes we are just going to throw in a cube 
+							(<i>GameObject->3DObject->Cube</i>). Once created, we are going to drag it a bit farther away from the camera, 
+							to ensure we will be able to see it right away (don’t want it spawning in the same space as us.)
+						</p>
+
+						<p>
+							Let’s now make sure we have our scene saved. From the <i>Main Toolbar</i>, click <i>File->Save As…</i> 
+							Save the Scene in the Scenes folder. Name it whatever you want.
+						</p>
+						<p>
+							And with that, our amazing hologram is placed and our scene is saved. We are now ready to deploy!
+						</p>
+						
+						<p>
+							From the <i>Main Toolbar</i>, select <i>File->Build Settings…</i>
+							Up top click the <i>Add Open Scenes</i> button and you should see our newly saved scene pop up
+							with a check mark beside it (for my example I have named the scene MainScene).
+							On the left side, select <i>Universal Windows Platform</i> and click the <i>Switch Platform</i> button (will be located in the same spot as the <i>Build</i> button).
+							Once the switch is complete, on the right just make sure the <i>Target Device</i> is set to the <i>HoloLens</i>.
+							I believe the rest defaults to the correct specs, but if not just match it to the picture below and it 
+							should work fine.
+						</p>
+						<p>
+							Click the <i>Build</i> button when you are done.
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='build_settings.png' alt='Build Settings: Target Device = HoloLens, Architecture = x64, Build Type = D3D, Target SDK Version = Latest installed, Minimum Platform Version = 10.0.10240.0, Visual Studio Version = Latest installed, Build and Run on = Local Machine, Build configuration = Realease, No check boxes are checked, Compression Method = Default'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Build Settings</figcaption>
+							<div>
+						</figure>
+						
+						<p>
+							When you are prompted to select a folder, create a New Folder and call it <i>App</i>. Select this folder.
+						</p>
+						<p>
+							There may be a bit of a delay before a popup will show up, showing the progress of the build.
+							When it completes a file explorer may or may not pop up with the location of the build. 
+							If you are unsure if it has completed, in the bottom left of the screen you should see the message 
+							“Build completed with a result of ‘Succeeded’.” As well, the file explorer should be highlighted orange 
+							to notify you something has occurred. 
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='completed.png' alt='Build Settings: Target Device = HoloLens, Architecture = x64, Build Type = D3D, Target SDK Version = Latest installed, Minimum Platform Version = 10.0.10240.0, Visual Studio Version = Latest installed, Build and Run on = Local Machine, Build configuration = Realease, No check boxes are checked, Compression Method = Default'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Build Settings</figcaption>
+							<div>
+						</figure>
+												
+						<p>
+							In File Explorer, go into the App folder and locate the <i>.sln</i> file. For example, I called my Unity Project Demo so the file I am looking for is called <i>Demo.sln</i>.
+							Be careful you select the one located in the App folder. In the folder you start off in there is also a <i>.sln</i> file, I am not sure why or what would happen if you selected it instead... so just don't.
+						</p>
+						<p>
+							Open the file with Visual Studio 2017. This may take a few moments to load. When the parsing of files is completed 
+							and you see the word "Ready" in the bottom corner, you are good to continue.
+						</p>
+						<p>
+							Switch the <i>Solution Configuration</i> from <i>Debug</i> mode to <i>Release</i>, 
+							switch the <i>Solution Platform</i> to <i>x86</i>, and if you are using the HoloLens emulator, 
+							switch the <i>Deployment</i> to <i>HoloLens Emulator 10.0.17134.80</i> (or whatever version you have).
+							It has been a while since I deployed directly to the HoloLens, but I believe the documentation holds for that, 
+							so I will link it <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-wi-fi---hololens-1st-gen ">HERE</a>. 
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='deploy_vs.png' alt='Deployment Settings: Debug, x86, HoloLens Emulator'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Deployment Settings</figcaption>
+							<div>
+						</figure>	
+
+						<p>
+							Now select from the <i>Main Toolbar</i>: <i>Debug->Start Without Debugging</i>
+						</p>
+						<p>
+							You may get a warning that some projects are out of date, just select <i>Yes</i>. I am unsure why that occurs.
+							Also, the emulator may startup before the deployment is actually complete, 
+							that’s okay just wait and the app we made will auto start when it is completed 
+							(don’t seek it out in the <i>All Apps</i> list displayed in the HoloLens Menu… it doesn't exist yet, and if we were redeploying it wouldn't be ready yet either.) 
+						</p>
+						<p>
+							<b>*** This is the moment you may get an error from your HoloLens Emulator not working ***</b>
+							<p>Hopefully my guidance from <a href="#step_2">Step 2</a> will help this not occur, fingers crossed.</p>
+						</p>
+						<p>
+							And voila, there it is. You should see a cube in front of you.
+							If you don’t, use the arrow keys to move the “head” and the WASD keys to move around. 
+							Maybe you just placed the cube in a poor location. 
+						</p>
+						
+						<figure class="figure">
+							<img class='figure-img img-fluid w-75 mx-auto d-block' src='complete_cube.png' alt='Deployment Settings: Debug, x86, HoloLens Emulator'>
+							<div class=" w-75 mx-auto d-block">
+							<figcaption class="figure-caption">Deployment Settings</figcaption>
+							<div>
+						</figure>	
+						
+						<p>
+							You have officially made your first HoloLens app. Or your first HoloLens app following my instructions anyways.
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>That's Pretty Neat, Now What?</h3>
+						<p>
+							That's all I have for this blog post. In a few weeks I will be posting again showing you how to utilize the
+							Mixed Reality Toolkit to add some more interesting functionalities to your app: like tap recognition!
+						</p>
+						<p>
+							Stay tuned~
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</head>
+</html>

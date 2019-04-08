@@ -169,36 +169,265 @@ public class PineappleBehaviour : MonoBehaviour
 								</div>							
 								</p>
 								<p>
-									To start off [RequireComponent(typeof(AudioSource))] is just used to say that we want to make sure whatever object we attach this script to has an audio source component.
+									To start off <code>[RequireComponent(typeof(AudioSource))]</code> is just used to say that we want to make sure whatever object we attach this script to has an audio source component.
 								</p>
 								<p>
-									The next thing to mention would be the list of pineapples, this is just how we are going to keep track of how many pineapples are currently on screen.
-									Whenever a pineapple with this script attached gets created, it will add itself to this class level list (as seen in the Start method: <code>pineapples.Add(gameObject);</code>).
+									The next thing to mention would be the list of <code>pineapples</code>, this is just how we are going to keep track of how many pineapples are currently on screen.
+									Whenever a pineapple with this script attached gets created, it will add itself to this class level list (as seen in the <code>Start</code> method: <code>pineapples.Add(gameObject);</code>).
 									In our other script, we will be checking the size of this list to determin whether to let more pineapples fall from the sky or not.
 								</p>
 								<p>
-									Within the OnDestroy method we are making sure to remove the reference to this game object from the list of pineapples. Again, we want to have an accurate representation of the objects on the screen, so we need to make sure we are only holding alive pineapples within the pineapples list.
+									Within the <code>OnDestroy</code> method we are making sure to remove the reference to this game object from the list of pineapples. Again, we want to have an accurate representation of the objects on the screen, so we need to make sure we are only holding alive pineapples within the pineapples list.
 								</p>
 								<p>
-									Lastly, within the OnCollisionEnter method we are checking to make sure that the object that was collided with is in fact the floor <span style="font-size:10pt; font-color:gray">(in my example I was unable to get spatial understanding working, so I cheated and used a rectangle game object I attached to the camera with the tag of "Floor" to act as my floor. Hopefully when the HoloLens 2 comes out some good tutorials will be made by Microsoft showing how to actually create a reference to the floor and then you would need to edit this part of the code to work properly with that instead)</span>.
-									If it has collided with the floor, we want to randomly choose which audio clip to play (so it doesn't get to stale). Random.value gives you a random decimal number between 0 and 1, so we are changing it into an either or choice by spliting it at 0.5 and saying if it's less than that play the first sound, otherwise play the second.
+									Lastly, within the <code>OnCollisionEnter</code> method we are checking to make sure that the object that was collided with is in fact the floor <span style="font-size:10pt; font-color:gray">(in my example I was unable to get spatial understanding working, so I cheated and used a rectangle game object I attached to the camera with the tag of "Floor" to act as my floor. Hopefully when the HoloLens 2 comes out some good tutorials will be made by Microsoft showing how to actually create a reference to the floor and then you would need to edit this part of the code to work properly with that instead)</span>.
+									If it has collided with the floor, we want to randomly choose which audio clip to play (so it doesn't get to stale). <code>Random.value</code> gives you a random decimal number between 0 and 1, so we are changing it into an either or choice by spliting it at 0.5 and saying if it's less than that play the first sound, otherwise play the second.
 								</p>
 							</li>
 							<li>
-							
+							<p>
+								Now onto the PStarterBehaviour script. This will be attached to our starting pineapple, to give it the count down behaviour and start the raining process.
+							</p>
+							<div class="border rounded pl-3">
+								<pre>
+								<code>
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class PStarterBehaviour : MonoBehaviour
+{
+    public AudioClip a;
+    public AudioClip b;
+
+    private Renderer rend;    
+    private AudioSource source;
+
+    private Color startColor;
+    public float colorTransitionSpeed = 1f;
+    public float spawnRange = 4f;
+    public int minPineapples = 150;
+    public int maxPineapples = 200;
+
+    public GameObject pineapplePrefab;
+
+    private bool started = false;
+    
+    void Start()
+    {
+        rend = GetComponent<Renderer>();
+        startColor = rend.material.GetColor("_EmissionColor");
+        source = GetComponent<AudioSource>();
+        source.loop = false;
+    }
+
+    void Update()
+    {
+        if(started == true && PineappleBehaviour.pineapples.Count < minPineapples)
+        {
+            StartCoroutine("MakeItRain");
+        }
+    }
+
+    public void OnClick()
+    {
+        StartCoroutine(PlayStartingSound());
+    }
+
+    public void OnMouseDown()
+    {
+        OnClick();
+    }
+
+   IEnumerator PlayStartingSound()
+    {
+        source.clip = a;
+        source.Play();
+        StartCoroutine(ChangePineappleColor(Color.red));
+        yield return new WaitForSeconds(a.length);
+        source.Play();
+        StartCoroutine(ChangePineappleColor(Color.yellow));
+        yield return new WaitForSeconds(a.length);
+        source.clip = b;
+        source.Play();
+        StartCoroutine(ChangePineappleColor(Color.green));
+        yield return new WaitForSeconds(b.length);
+        AddGravity();
+    }
+
+    IEnumerator ChangePineappleColor(Color endColor)
+    {
+        float timeToStart = Time.time;
+        startColor = rend.material.GetColor("_EmissionColor");
+
+        while (rend.material.GetColor("_EmissionColor") != endColor) // This is your target size of object.
+        {
+            rend.material.SetColor("_EmissionColor", Color.Lerp(startColor, endColor, (Time.time - timeToStart) * colorTransitionSpeed));//Here colorTransitionSpeed is the 1 or any number which decides the how fast it reach to one to other end.
+
+            yield return null;
+        }
+    }
+
+    private void AddGravity()
+    {
+        GetComponent<Rigidbody>().useGravity = true;
+        started = true;
+    }
+
+    IEnumerator MakeItRain()
+    {
+        while (PineappleBehaviour.pineapples.Count < maxPineapples)
+        {
+            Vector3 position = Camera.main.gameObject.transform.position + new Vector3(Random.Range(-spawnRange, spawnRange),1,Random.Range(-spawnRange, spawnRange));
+            GameObject newPineapple = Instantiate(pineapplePrefab, position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+
+            yield return new WaitForSeconds(Random.Range(0.5f,2f));
+
+            Destroy(newPineapple, Random.Range(2,7));
+        }
+    }
+}								
+								</code>
+								</pre>
+							</div>
+							So let's break this down.
+							<ul>
+							<li>
+							<code>spawnRange</code> is used to determin the maximum distance a pineapple will spawn as compared to where the player is standing.
+							</li>
+							<li>						
+							It is worth nothing that I included an <code>OnMouseDown</code> method, this is not something that will be functional with the HoloLens system, it is just for testing purposes since there isn't a way to simulate the clicking gesture.
+							</li>
+							<li>
+							<p>
+							<code>PlayStartingSoundM</code> utilizes Unity's Coroutines to make sure that each clip plays to completion before moving on to playing the next sound, while simultaniously changing the color of the pineapple.
+							</p>
+							<p>
+							Changing the color relies on the pineapple having only one material. If you are using a more complex model, you would need to look into that yourself. You could potentially just get reference to all the materials and change them all at the same time? I'm not sure.
+							</p>
+							<p>
+							Oh yeah, to learn more about Coroutines, check out the <a href="https://docs.unity3d.com/Manual/Coroutines.html">Unity Manual on Coroutines</a> (IEnumerators are explained there too).
+							</p>
+							</li>
+							</li>
+							<li>
+							The only other thing to methion is how I am adding gravity through the <code>AddGravity</code> method. All I'm doing is getting a reference to the Rigidbody and setting its gravity useage to true.
 							</li>
 						</ol>
 					</div>
 	
 					<div class='container'>
 						<h3>3. Adding All Components To Your Pineapple</h3>
-						
+						<p>
+							So in our script we've been referencing all these components that don't actually exist on our pineapples yet. So we need to add those real quick here.
+						</p>	
+						<p>
+						So the first step is to make a couple of pineapple prefabs so we can attach some scripts and components to them.
+						</p>
+						<p>
+						If you imported the same pineapple as me, you will see that a <i>Fruits_Pack - 3D_Models</i> folder will have been created in your <i>Assets</i> folder.
+						If you expand it you will see there is a <i>Prefabs</i> folder, open that and locate the pineapple prefab they have. Drag the prefab onto the <i>Hierarchy</li>
+						Right click and rename it to "PineappleStarter". Drag over another instance onto the <i>Hierarchy</i> and rename this one to "Pineapple".
+						Now, you can either keep using the <i>Prefabs</i> folder we just opened, or you can create your own <i>Prefabs</li> folder under <i>Assets</i>.
+						Either way, you are going to want to drag the GameObjects from the <i>Hierarchy</i> into the <i>Prefabs</i> folder of your choice. This is how you create a prefab.						
+						</p>
+						<p>
+							With all of that in mind, I am going to list off all the Components you will want to have attached to the PineappleStarter GameObject as well as the Pineapple GameObject.
+						</p>
+						<div class="container">
+							<u><h4 class="text-center">PineappleStarter</h4></u>
+							<br/>
+							<div class="row">
+							<div class="col-sm">
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='3_pineapple_starter.png' alt='Components for the PineappleStarter'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Components for the PineappleStarter</figcaption>
+									<div>
+								</figure>
+							</div>
+							<div class="col-sm">
+							<ul>
+							<li>
+								<p><b>Mesh Collider</b></p>
+								<p>Check <i>Convex</i></p>
+							</li>
+							<li>
+								<p><b>Rigid Body</b></p>
+								<p><i>Use Gravity</i> is not checked</p>
+							</li>
+							<li>
+								<p><b>Audio Source</b></p>
+								<p>Set <i>Spatial Blend</i> all the way to the right for 3D spatialization</p>
+								<p>Lower the <i>Max Distance</i> to 30, we don't need that much distance for this application</p>
+								<p>Check <i>Spatialize</i></p>
+							</li>
+							<li>
+								<p><b>Pointer Click Handler</b></p>
+								<p>This one is a bit more involved than the others, as this is where we will be setting up our <code>OnClick</code> event.</p>
+								<p>Check <i>Is focus Required</i></p>
+								<p>Expand, <i>On Pointer Clicked Action Event</i>, change the <i>Input Action</i> to <i>Select</i>, drag an instance of the PineappleStarter prefab unto the empty section under the selector that says "Runtime Only" (check the image to see what I mean), and with the right selector select the PStarterBehaviour script's <code>OnClick</code> method. </p>
+							</li>
+							<li>
+								<p><b>P Starter Behaviour (Script)</b></p>
+								<p>Drag the each of the two count down audio files we downloaded earlier into the <i>A</i> and <i>B</i> fields. Also, drag a copy of the Pineapple prefab into the <i>Pineapple Prefab</i> field. Leave the rest of the values at there defaults; though this is where you would go if you wanted to change some things like min and max number of pineapples.</p>
+							</li>
+							</ul>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="container">
+					<u><h4 class="text-center">Pineapple</h4></u>
+					<br/>
+						<div class="row">
+							<div class="col-sm">
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='3_pineapple.png' alt='Components for the Pineapple'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Components for the Pineapple</figcaption>
+									<div>
+								</figure>
+							</div>
+							<div class="col-sm">
+							<ul>
+							<li>
+								<p><b>Mesh Collider</b></p>
+								<p>Check <i>Convex</i></p>
+							</li>
+							<li>
+								<p><b>Rigid Body</b></p>
+								<p>Check <i>Use Gravity</i></p>
+							</li>
+							<li>
+								<p><b>Audio Source</b></p>
+								<p>Set <i>Spatial Blend</i> all the way to the right for 3D spatialization</p>
+								<p>Lower the <i>Max Distance</i> to 30, we don't need that much distance for this application</p>
+								<p>Check <i>Spatialize</i></p>
+							</li>
+							<li>
+								<p><b>Pineapple Behaviour (Script)</b></p>
+								<p>Drag the each of the two falling audio files we downloaded earlier into the <i>Fall 1</i> and <i>Fall 2</i> fields.</p>
+							</li>
+							</ul>
+							</div>
+						</div>
+					</div>
 					</div>
 				
 					
 					<div class='container'>
 						<h3>4. Putting It All Together</h3>
-						
+						<p>
+							Putting it all together is real easy. Just drag a copy of the PineappleStarter onto the <i>Hierarchy</i>. Follow the same instruction as from my last post, and move the pineapple farther out so you can see it in the <i>
+						</p>
+						<p>
+							Now all you have to do is follow my last blog's instructions on how to deploy your app and you are set!
+						</p>
+						<p>
+							And that's it, you're all done. Give it a whirl!							
+						</p>
 					</div>
 				</div>
 			</div>

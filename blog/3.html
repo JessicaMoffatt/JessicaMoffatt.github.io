@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>The Holo Trinity</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+</head>
+<body>
+<div class='background'>
+	<div class='container mid-background'>
+		<div class='container'>
+
+			<div class='container'>
+				<h1 class='text-center welcome-title'>The Holo Trinity</h1>
+			</div>
+			
+			<div class='container'>
+				<p class='text-center sub-title small'>This is where I will be hosting three blog posts about the Microsoft HoloLens</p>
+			</div>
+			
+			<div class='panel panel-default post'>
+				<div class='container'>
+				<h1>Hololens</h1>
+				<h2>So Simple Even Your Kids Can Do It</h2>
+				<span class="small sub-title">Post by Jessica Moffatt, April 2, 2019</span>
+				</div>
+				<br/>
+				<div class='panel-body center-text'>
+				
+					<div class='container'>
+						<h3>Recap</h3>
+						<p>
+							In my <a href="2.html">previous blog post</a> I showed you how to set up Unit for HoloLens development; 
+							we even did a quick test deployment of a static hologram. With that all completed, it would be nice to 
+							create something a bit more interesting though, right?
+						</p>
+						<p>
+							So, as a continuation we are going to create an app today that makes pineapples rain from the sky in 4 easy steps! Neat!
+						</p>
+					</div>
+					
+					<div class='container'>
+						<h3>1. Import Some Assets</h3>
+						<p>
+							There are various assets we will need imported into our project before we can really begin.
+						</p>
+						<ol>
+							<li>
+								<p><b><a href="https://assetstore.unity.com/packages/3d/props/food/fruits-pack-3d-models-91669">3D Pineapple</a></b></p>
+								<p>
+								To start off we're going to need a pineapple. I found a free one in the Unity app store for free, which you can get <a href="https://assetstore.unity.com/packages/3d/props/food/fruits-pack-3d-models-91669">HERE</a>.
+								You can of course use whatever 3D model you want, it might be a bit more tricky if you pick one made of a lot of different 
+								components, so at least for now I recommend trying it out with the linked one first.
+								</p>
+								<p>
+								To import the pineapple, select the <i>Asset Store</i> tab (if you don't see it, select from the main toolbar: <i>Window</i>-><i>Asset Store</i>) and in the search bar type in "Pineapple", the asset I linked above should be the last result.
+								Scroll down and click the giant Import button. During the actual import process, just select the assets related to the pineapple, if you aren't sure which ones to select just select them all it's not a big deal.
+								</p>
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='3_import.png' alt='Importing assets from the Unity asset store'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Importing assets from the Unity asset store</figcaption>
+									<div>
+								</figure>
+							</li>
+							<li>
+								<p><b><a href="https://opengameart.org/content/countdown">Audio Effects</a></b></p>
+								<p>
+									We are going to make our app more interesting through including some audio clips that will trigger on hit as well as a count down audio clip.
+									For the sound effect of the pineapple hitting the ground, I used 2 of the 3 clips found <a href="https://opengameart.org/content/jump-landing">HERE</a>.
+									For the count down sound, I used the two clips found <a href="https://opengameart.org/content/countdown">HERE</a>.
+								</p>
+								<p>
+									To import the audio, on the main toolbar click <i>Assets</i>-><i>Import New Asset</i> and navigate to where the audio was downloaded to. Import them and move them into their own folder called 
+									<i>Audio</i>. It shouldn't exist yet, so to create the folder just right click on the <i>Assets</i> folder in the Project View and choose Create New Folder, now you can move the audio files into it.
+								</p>
+							</li>
+						</ol>
+					</div>
+					
+					<div class='container'>
+						<h3>2. Creating A Script For Your Pineapple</h3>
+						<p>
+							The goal of this application is as follows: Start off with stationary pineapple, once clicked a countdown will occur. On 3, the pineapple will fall to the ground, and multitudes of pineapples will start to rain from the sky.
+							In order to accomplish this, we will need to consider a few things:</p>
+								<ul>
+									<li>We need to be able to register click events with the HoloLens.</li>
+									<li>We need triggers to detect when the pineapples hit the ground, so we can know when to play sound effects.</li>
+									<li>In order for the pineapples to fall from the sky, we need some physics (ie: gravity).</li>
+									<li>We don't want too many pineapples to fall at once, else the HoloLens will start to lag.</li>
+									<li>We need to clear out old pineapples to make room for new ones, so they will need a lifespan.</li>
+								</ul>
+							
+						
+						<p>With all of that in mind, lets get to it.</p>
+						<ol>
+							<li>Right click on the <i>Assets</i> folder located in the Project Panel, create a new folder called "Scripts".</li>
+							<li>
+								Within the Scripts folder, right click and select <i>Create</i>-><i>C# Script</i>. Name the created script "PineappleBehaviour".
+								<figure class="figure">
+									<img class='figure-img img-fluid w-75 mx-auto d-block' src='3_newscript.png' alt='Creating a new C# script'>
+									<div class=" w-75 mx-auto d-block">
+									<figcaption class="figure-caption">Creating a new C# script</figcaption>
+									<div>
+								</figure>
+							</li>
+							<li>
+								Repeat the previous step, this time calling the created script "PStarterBehaviour".
+							</li>
+							<li>
+								<p>
+								There is less to do with the PineappleBehaviour script, so let's start with that. 
+								This script will be attached to every pineapple that falls from the sky; 
+								this excludes the starting pineapple (that is what the PStarterBehaviour script will be for).
+								</p>
+								<p>
+								<div class="border rounded pl-3">
+								<pre>
+								<code>
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class PineappleBehaviour : MonoBehaviour
+{
+	public AudioClip fall1;
+	public AudioClip fall2;
+
+	private AudioSource source;
+
+	public static List<GameObject> pineapples = new List<GameObject>();
+ 
+	void Start()
+	{
+		source = GetComponent<AudioSource>();
+		source.loop = false;
+		pineapples.Add(gameObject);
+	}
+
+	void OnDestroy()
+	{
+		pineapples.Remove(gameObject);
+	}
+
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.gameObject.tag.Equals("Floor"))
+		{
+			float choice = Random.value;
+			if(choice < 0.5f)
+			{
+				source.clip = fall1;
+			}
+			else
+			{
+				source.clip = fall2;
+			}
+			
+			source.Play();
+		}
+	}
+}
+								</code>
+								</pre>
+								</div>							
+								</p>
+								<p>
+									To start off [RequireComponent(typeof(AudioSource))] is just used to say that we want to make sure whatever object we attach this script to has an audio source component.
+								</p>
+								<p>
+									The next thing to mention would be the list of pineapples, this is just how we are going to keep track of how many pineapples are currently on screen.
+									Whenever a pineapple with this script attached gets created, it will add itself to this class level list (as seen in the Start method: <code>pineapples.Add(gameObject);</code>).
+									In our other script, we will be checking the size of this list to determin whether to let more pineapples fall from the sky or not.
+								</p>
+								<p>
+									Within the OnDestroy method we are making sure to remove the reference to this game object from the list of pineapples. Again, we want to have an accurate representation of the objects on the screen, so we need to make sure we are only holding alive pineapples within the pineapples list.
+								</p>
+								<p>
+									Lastly, within the OnCollisionEnter method we are checking to make sure that the object that was collided with is in fact the floor <span style="font-size:10pt; font-color:gray">(in my example I was unable to get spatial understanding working, so I cheated and used a rectangle game object I attached to the camera with the tag of "Floor" to act as my floor. Hopefully when the HoloLens 2 comes out some good tutorials will be made by Microsoft showing how to actually create a reference to the floor and then you would need to edit this part of the code to work properly with that instead)</span>.
+									If it has collided with the floor, we want to randomly choose which audio clip to play (so it doesn't get to stale). Random.value gives you a random decimal number between 0 and 1, so we are changing it into an either or choice by spliting it at 0.5 and saying if it's less than that play the first sound, otherwise play the second.
+								</p>
+							</li>
+							<li>
+							
+							</li>
+						</ol>
+					</div>
+	
+					<div class='container'>
+						<h3>3. Adding All Components To Your Pineapple</h3>
+						
+					</div>
+				
+					
+					<div class='container'>
+						<h3>4. Putting It All Together</h3>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</head>
+</html>
